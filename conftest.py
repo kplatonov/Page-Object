@@ -14,7 +14,7 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="function")
 def browser(request):
-    browser_name = request.config.getoption("browser_name")
+    browser_name = request.config.getoption("browser_name")     # ?? request.config.getoption("browser_name")
     if browser_name == "chrome":
         print("\nstart chrome browser for test..")
         browser = webdriver.Chrome()
@@ -26,3 +26,16 @@ def browser(request):
     yield browser
     print("\nquit browser..")
     browser.quit()
+
+
+#@pytest.fixture()
+#def login_page(web_driver) -> LoginPage:
+#    """
+#    ‘икстура дл€ быстрого перехода на страницу авторизации
+#    :param web_driver: фикстура инициализации веб драйвера
+#    :return: экземпл€р класса LoginPage
+#    """
+#    page = LoginPage(web_driver)
+#    page.navigate()
+#    return page
+

@@ -2,7 +2,7 @@
 
 def test_guest_can_go_to_login_page(browser):
     link = "http://selenium1py.pythonanywhere.com"
-    page = MainPage(browser, link)
+    page = MainPage(browser, link, 10)
     page.open()
     login_page = page.go_to_login_page()
     login_page.should_be_login_page()
@@ -20,7 +20,7 @@ from pages.login_page import LoginPage
 
 def test_guest_can_go_to_login_page_2(browser):
     link = "http://selenium1py.pythonanywhere.com"
-    page = MainPage(browser, link)
+    page = MainPage(browser, link, 10)
     page.open()
     page.go_to_login_page()
     login_page = LoginPage(browser, browser.current_url)
