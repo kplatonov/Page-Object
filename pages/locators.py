@@ -25,3 +25,4 @@ class ProductPageLocators(object):
     PRICE_COLOR = (By.XPATH, "//p[@class='price_color']")
     NAME_IN_MESSAGE = (By.XPATH, "//*[@id='messages']/div[1]/div/strong")
     NAME_BOOK = (By.XPATH, "//*[@id='content_inner']/article/div[1]/div[2]/h1")
+    SUCCESS_MESSAGE = (By.XPATH, "//*[@id='messages']/div[1]/div")
