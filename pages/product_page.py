@@ -28,3 +28,12 @@ class ProductPage(BasePage):
             assert False, "NoSuchElementException for price"
         price_color = self.browser.find_element(*ProductPageLocators.PRICE_COLOR).text
         assert price == price_color, "Price is not equal"           #as string
+
+    def should_be_name_equal(self):
+        try:
+            name_message = self.browser.find_element(*ProductPageLocators.NAME_IN_MESSAGE).text
+        except NoSuchElementException:
+            assert False, "NoSuchElementException for name"
+        name = self.browser.find_element(*ProductPageLocators.NAME_BOOK).text
+        assert name == name_message, "Name is not equal"           #as string
+    
