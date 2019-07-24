@@ -5,8 +5,12 @@ import math
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from locators import BasePageLocators
+
+
+
 class BasePage(object):
-    def __init__(self, browser, url, timeout):
+    def __init__(self, browser, url, timeout = 0):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
@@ -34,9 +38,9 @@ class BasePage(object):
         return False
 
     def is_disappeared(self, how, what, timeout=4):
-    """
-    Проверяем, что элемент исчезнет
-    """
+        """
+        Проверяем, что элемент исчезнет
+        """
         try:
             WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
@@ -59,3 +63,11 @@ class BasePage(object):
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def go_to_login_page(self):
+        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK) #_INVALID)
+        link.click()
+
+    def should_be_login_link(self):
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+

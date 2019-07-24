@@ -13,6 +13,10 @@ class LoginPageLocators(object):
     REGISTRATION_PASSWORD2 = (By.CSS_SELECTOR, "[name='registration-password2']")
     REGISTRATION_SUBMIT = (By.CSS_SELECTOR, "[name='registration_submit']")
 
+class BasePageLocators(object):
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+
 class ProductPageLocators(object):
     BTN_ADD_TO_BUSKET = (By.CLASS_NAME, "btn-add-to-basket")    #"btn btn-lg btn-primary btn-add-to-basket")
     ALERTTINNER = (By.CLASS_NAME, "alert-info")    #"alertinner")    #check visibled
