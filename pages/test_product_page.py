@@ -88,7 +88,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
 @pytest.mark.step10
 def test_guest_cant_see_product_in_cart_opened_from_product_page(browser):
     """
-    pytest -s -m step10 --tb=line test_product_page.py
+    pytest -s (-m step10 | -k product_in_cart) --tb=line test_product_page.py
 
     Гость открывает страницу товара
     Переходит в корзину по кнопке в шапке 

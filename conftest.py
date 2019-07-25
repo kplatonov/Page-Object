@@ -12,6 +12,19 @@ def pytest_addoption(parser):
 #    browser.get(link)
 #    browser.find_element_by_css_selector("#login_link")
 
+"""
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+browser = webdriver.Chrome(options=options)
+Р”Р»СЏ Firefox РѕР±СЉСЏРІР»РµРЅРёРµ РЅСѓР¶РЅРѕРіРѕ СЏР·С‹РєР° Р±СѓРґРµС‚ РІС‹РіР»СЏРґРµС‚СЊ РЅРµРјРЅРѕРіРѕ РёРЅР°С‡Рµ:
+
+fp = webdriver.FirefoxProfile()
+fp.set_preference("intl.accept_languages", user_language)
+browser = webdriver.Firefox(firefox_profile=fp)
+"""
+
 @pytest.fixture(scope="function")
 def browser(request):
     browser_name = request.config.getoption("browser_name")     # ?? request.config.getoption("browser_name")
@@ -31,9 +44,9 @@ def browser(request):
 #@pytest.fixture()
 #def login_page(web_driver) -> LoginPage:
 #    """
-#    Фикстура для быстрого перехода на страницу авторизации
-#    :param web_driver: фикстура инициализации веб драйвера
-#    :return: экземпляр класса LoginPage
+#    Р¤РёРєСЃС‚СѓСЂР° РґР»СЏ Р±С‹СЃС‚СЂРѕРіРѕ РїРµСЂРµС…РѕРґР° РЅР° СЃС‚СЂР°РЅРёС†Сѓ Р°РІС‚РѕСЂРёР·Р°С†РёРё
+#    :param web_driver: С„РёРєСЃС‚СѓСЂР° РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РІРµР± РґСЂР°Р№РІРµСЂР°
+#    :return: СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° LoginPage
 #    """
 #    page = LoginPage(web_driver)
 #    page.navigate()
