@@ -1,0 +1,106 @@
+<!DOCTYPE html>                                                           
+<head>
+<link href="css" rel="stylesheet" type="text/css">
+<link href="css(1)" rel="stylesheet">
+<link href="css(2)" rel="stylesheet" id="wt-sky-css--725574360">
+<link rel="stylesheet" href="vendor.css">
+<link rel="stylesheet" href="critical.css">
+<link rel="stylesheet" href="stepic.css">
+
+</head><body>
+<article id="ember4270" class="step-show ember-view"><div class="step-dynamic-container">
+    <div id="ember4271" class="step-view step-view_material ember-view"><!----><div class="step-wrapper">
+  <div class="step-inner page-fragment">
+    <div id="ember4272" class="rich-text-viewer ember-view" data-ready="">
+<h2>Переходы между страницами</h2>
+
+<p>Переход можно реализовать двумя разными способами.&nbsp;</p>
+
+<p>Первый способ: возвращать нужный Page Object.</p>
+
+<p>Для этого в файле main_page.py нужно сделать импорт страницы с логином:&nbsp;</p>
+
+<pre><code class="language-python hljs"><span class="hljs-keyword"><span class="hljs-keyword">from</span></span> .login_page <span class="hljs-keyword"><span class="hljs-keyword">import</span></span> LoginPage</code></pre>
+
+<p>Затем в методе, который осуществляет переход к&nbsp;странице логина, проинициализировать новый объект Page&nbsp;и вернуть его:&nbsp;</p>
+
+<pre><code class="language-python hljs"><span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">def</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">go_to_login_page</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(self)</span></span></span><span class="hljs-function">:</span></span>
+    link = self.browser.find_element(*MainPageLocators.LOGIN_LINK)
+    link.click()
+    <span class="hljs-keyword"><span class="hljs-keyword">return</span></span> LoginPage(browser=self.browser, url=self.browser.current_url) </code></pre>
+
+<p>Обратите внимание! При создании объекта мы обязательно&nbsp;передаем ему тот же самый объект драйвера для работы с браузером, а в качестве url передаем текущий адрес.</p>
+
+<p>Теперь в тесте нам не нужно думать про инициализацию страницы: она уже создана. Сохранив возвращаемое значение в переменную, мы можем использовать методы новой страницы в тесте:</p>
+
+<pre><code class="hljs aspectj">def test_guest_can_go_to_login_page(browser):
+    link = <span class="hljs-string"><span class="hljs-string">"http://selenium1py.pythonanywhere.com"</span></span>
+    page = MainPage(browser, link)
+    page.open()
+    login_page = page.go_to_login_page()
+    login_page.should_be_login_page()</code></pre>
+
+<p>Плюсы такого подхода:&nbsp;</p>
+
+<ul>
+	<li>тест выглядит аккуратнее — не нужно инициализировать страницу в теле теста</li>
+	<li>явно возвращаем страницу — тип страницы ассоциирован с методом</li>
+	<li>не нужно каждый раз думать в разных тестах про инициализацию страницы — уменьшаем дублирование кода&nbsp;</li>
+</ul>
+
+<p>минусы:&nbsp;</p>
+
+<ul>
+	<li>если у нас копится большое количество страниц и переходов — образуется много перекрестных импортов</li>
+	<li>большая связность кода — при изменении логики придется менять возвращаемое значение&nbsp;</li>
+	<li>сложнее понимать код, так как&nbsp;страница инициализируется неявно</li>
+</ul>
+
+<p>Второй подход: переход происходит неявно, страницу инициализируем в теле теста:&nbsp;</p>
+
+<p>1. Закомментируйте строку с возвращаемым значением&nbsp;</p>
+
+<pre><code class="language-python hljs"><span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">def</span></span></span><span class="hljs-function"> </span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">go_to_login_page</span></span></span><span class="hljs-params"><span class="hljs-function"><span class="hljs-params">(self)</span></span></span><span class="hljs-function">:</span></span>
+    link = self.browser.find_element(*MainPageLocators.LOGIN_LINK)
+    link.click()
+    <span class="hljs-comment"><span class="hljs-comment"># return LoginPage(browser=self.browser, url=self.browser.current_url) </span></span></code></pre>
+
+<p>2. Инициализируем LoginPage в теле теста (не забудьте импортировать в файл нужный класс):&nbsp;</p>
+
+<pre><code class="hljs aspectj">from .pages.login_page <span class="hljs-keyword"><span class="hljs-keyword">import</span></span> LoginPage
+
+def test_guest_can_go_to_login_page(browser):
+    link = <span class="hljs-string"><span class="hljs-string">"http://selenium1py.pythonanywhere.com"</span></span>
+    page = MainPage(browser, link)
+    page.open()
+    page.go_to_login_page()
+    login_page = LoginPage(browser, browser.current_url)
+    login_page.should_be_login_page()</code></pre>
+
+<p>Плюсы:</p>
+
+<ul>
+	<li>меньше связность кода&nbsp;</li>
+	<li>меньше импортов, нет перекрестных импортов</li>
+	<li>больше гибкость</li>
+	<li>в тесте понятнее что происходит, т.к. явно инициализируем страницу</li>
+</ul>
+
+<p>Минусы:</p>
+
+<ul>
+	<li>появляется лишний шаг в тест-кейсе</li>
+	<li>каждый раз при написании теста нужно думать про корректные переходы</li>
+	<li>дублируется код&nbsp;</li>
+</ul>
+
+<p>И тот и другой подход можно успешно применять в своих проектах, главное делать это с умом. Сейчас оставьте тот вариант, который вам больше понравился.&nbsp;</p>
+
+<p>Зафиксируйте изменения в коммите с осмысленным сообщением.</p>
+</div>
+    </div>
+</div>
+</div>
+</div>
+</article>
+</body></html>

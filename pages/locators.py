@@ -1,8 +1,14 @@
 ﻿from selenium.webdriver.common.by import By
 
 
-class MainPageLocators(object):
+class BasePageLocators(object):
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    BASKET_LINK = (By.XPATH, "//span[@class='btn-group']/a[contains(@href, 'basket')]")
+
+class BasketPageLocators(object):
+    BASKET_TOTAL = (By.ID, "basket_totals")
+    BASKET_IS_EMPTY_TEXT = (By.XPATH, "//*[@id='content_inner']/p/text()")
 
 class LoginPageLocators(object):
     LOGIN_USERNAME = (By.CSS_SELECTOR, "[name='login-username']")
@@ -13,9 +19,8 @@ class LoginPageLocators(object):
     REGISTRATION_PASSWORD2 = (By.CSS_SELECTOR, "[name='registration-password2']")
     REGISTRATION_SUBMIT = (By.CSS_SELECTOR, "[name='registration_submit']")
 
-class BasePageLocators(object):
+class MainPageLocators(object):
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
-    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
 
 class ProductPageLocators(object):
     BTN_ADD_TO_BUSKET = (By.CLASS_NAME, "btn-add-to-basket")    #"btn btn-lg btn-primary btn-add-to-basket")
@@ -30,3 +35,4 @@ class ProductPageLocators(object):
     NAME_IN_MESSAGE = (By.XPATH, "//*[@id='messages']/div[1]/div/strong")
     NAME_BOOK = (By.XPATH, "//*[@id='content_inner']/article/div[1]/div[2]/h1")
     SUCCESS_MESSAGE = (By.XPATH, "//*[@id='messages']/div[1]/div")
+
