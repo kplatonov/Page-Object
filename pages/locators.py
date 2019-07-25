@@ -5,6 +5,7 @@ class BasePageLocators(object):
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
     BASKET_LINK = (By.XPATH, "//span[@class='btn-group']/a[contains(@href, 'basket')]")
+    USER_ICON = (By.CSS_SELECTOR, ".icon-user")
 
 class BasketPageLocators(object):
     BASKET_TOTAL = (By.ID, "basket_totals")

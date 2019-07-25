@@ -26,3 +26,13 @@ class LoginPage(BasePage):
         #assert self.is_element_present(By.CSS_SELECTOR, LoginPageLocators.REGISTRATION_EMAIL), "There isn't register form"
         assert self.is_element_present(*LoginPageLocators.REGISTRATION_EMAIL), "There isn't register form"
         assert True
+
+
+    def register_new_user(self, email, password):
+        #принимает две строки и регистрирует пользователя. Реализуйте его, описав соответствующие элементы страницы.
+        self.should_be_login_page()
+        self.select_element(*LoginPageLocators.REGISTRATION_EMAIL, email) 
+        self.select_element(*LoginPageLocators.REGISTRATION_PASSWORD1, password)
+        self.select_element(*LoginPageLocators.REGISTRATION_PASSWORD2, password)
+
+        self.browser.find_element(*LoginPageLocators.REGISTRATION_SUBMIT).click()
